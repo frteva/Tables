@@ -1,1 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
 
+<p>Click the button to create a TABLE with 10 rows and 10 columns</p>
+
+<button onclick="newTable()">Try it</button>
+
+<script>
+
+    class Table{
+
+        constructor(docs){
+ /*            this.render = renderTable(); */
+            this.docs = docs;
+            this.renderTable();
+            return this
+        }
+
+        sort(element) {
+            console.log(this.docs)
+            this.docs.sort((a, b) => a[element.innerHTML] - b[element.innerHTML]);
+            //sort
+            this.remove();
+            this.renderTable();
+        }
+
+        renderTable() {
+            var table = this.table = document.createElement("table");
+            table.setAttribute("id", "myTable");
+            document.body.appendChild(table);     
+            
+
+            var headerEl = document.createElement("thead");
+            let trEl = document.createElement("tr")
+
+            table.appendChild(headerEl);
+            headerEl.appendChild(trEl);
+
+
+            for(let key in this.docs[0]){
+                let thEl = document.createElement("th");
+                trEl.appendChild(thEl);  
+                thEl.innerHTML = key;    
+                var self = this
+                thEl.onclick = function(event){
+                    self.sort(event.target)
+                }   
+            }
+
+            var tbody = document.createElement("tbody");
+            table.appendChild(tbody);
+
+            for(var j=0; j<this.docs.length; j++){
+                var row = tbody.insertRow();
+                    row.insertCell().innerHTML = this.docs[j].name ;
+                    row.insertCell().innerHTML = this.docs[j].age ;
+            }
+
+        }
+
+        remove(){
+                // remove the actual render
+                this.table.innerHTML = "";  
+        }
+
+                
+    }
+
+
+
+
+    var docsArray = [{
+                        name: "2",
+                        age: "122"
+                    },{
+                        name: "3",
+                        age: "133"
+                    },{
+                        name: "4",
+                        age: "111"
+                    }]  
+
+
+
+
+
+    function newTable() {
+        const createTable = new Table(docsArray);
+       
+    
+        console.log(createTable.docs);       
+    } 
+
+
+</script>
+
+</body>
+</html>
